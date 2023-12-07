@@ -8,7 +8,8 @@ import * as types from './types'
 import { fetch as globalFetch } from './fetch'
 import { fetchSSE } from './fetch-sse'
 
-const CHATGPT_MODEL = 'gpt-3.5-turbo'
+const CHATGPT_MODEL = 'chatglm3-6b'
+// 'gpt-3.5-turbo'
 
 const USER_LABEL_DEFAULT = 'User'
 const ASSISTANT_LABEL_DEFAULT = 'Assistant'
