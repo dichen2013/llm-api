@@ -11,7 +11,7 @@ import { fetchSSE } from './fetch-sse'
 const CHATGPT_MODEL = 'gpt-3.5-turbo'
 
 const USER_LABEL_DEFAULT = 'User'
-const ASSISTANT_LABEL_DEFAULT = 'ChatGPT'
+const ASSISTANT_LABEL_DEFAULT = 'Assistant'
 
 export class ChatGPTAPI {
   protected _apiKey: string
