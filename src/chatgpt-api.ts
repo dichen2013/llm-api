@@ -83,7 +83,7 @@ export class ChatGPTAPI {
 
     if (this._systemMessage === undefined) {
       const currentDate = new Date().toISOString().split('T')[0]
-      this._systemMessage = `You are Xbrain Chat Bot, a large language model trained by Intellicloud. Follow the user\'s instructions carefully. Respond using markdown.\nCurrent date: ${currentDate}`
+      this._systemMessage = `你的名字叫xbrain-chat,你是由中国东方航空公司研发的智能对话机器人.`
     }
 
     this._maxModelTokens = maxModelTokens
