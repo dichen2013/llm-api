@@ -41,6 +41,7 @@ export type SendMessageOptions = {
   conversationId?: string
   messageId?: string
   stream?: boolean
+  modelUrl?: string
   systemMessage?: string
   timeoutMs?: number
   onProgress?: (partialResponse: ChatMessage) => void
