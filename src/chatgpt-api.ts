@@ -8,8 +8,7 @@ import * as types from './types'
 import { fetch as globalFetch } from './fetch'
 import { fetchSSE } from './fetch-sse'
 
-const CHATGPT_MODEL = 'chatglm3-6b'
-// 'gpt-3.5-turbo'
+const CHATGPT_MODEL = 'gpt-3.5-turbo'
 
 const USER_LABEL_DEFAULT = 'User'
 const ASSISTANT_LABEL_DEFAULT = 'Assistant'
@@ -83,7 +82,7 @@ export class ChatGPTAPI {
 
     if (this._systemMessage === undefined) {
       const currentDate = new Date().toISOString().split('T')[0]
-      this._systemMessage = `你的名字叫xbrain-chat,你是由中国东方航空公司研发的智能对话机器人.`
+      this._systemMessage = `You are Xbrain Chat Bot, a large language model trained by Intellicloud. Follow the user\'s instructions carefully. Respond using markdown.\nCurrent date: ${currentDate}`
     }
 
     this._maxModelTokens = maxModelTokens
@@ -146,7 +145,8 @@ export class ChatGPTAPI {
       onProgress,
       stream = onProgress ? true : false,
       completionParams,
-      conversationId
+      conversationId,
+      modelUrl
     } = opts
 
     let { abortSignal } = opts
@@ -182,7 +182,7 @@ export class ChatGPTAPI {
 
     const responseP = new Promise<types.ChatMessage>(
       async (resolve, reject) => {
-        const url = `${this._apiBaseUrl}/chat/completions`
+        const url = `${modelUrl || this._apiBaseUrl}/chat/completions`
         const headers = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this._apiKey}`

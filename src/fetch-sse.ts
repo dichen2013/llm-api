@@ -23,7 +23,7 @@ export async function fetchSSE(
       reason = res.statusText
     }
 
-    const msg = `ChatGPT error ${res.status}: ${reason}`
+    const msg = `Xbrain error ${res.status}: ${reason}`
     const error = new types.ChatGPTError(msg, { cause: res })
     error.statusCode = res.status
     error.statusText = res.statusText
