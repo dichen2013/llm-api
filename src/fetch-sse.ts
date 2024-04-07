@@ -23,7 +23,14 @@ export async function fetchSSE(
       reason = res.statusText
     }
 
+    switch (res.status) {
+      case 429:
+        reason =
+          'Requests to the xbrain llm API have exceeded token rate limit of your current pricing tier'
+    }
+
     const msg = `Xbrain error ${res.status}: ${reason}`
+
     const error = new types.ChatGPTError(msg, { cause: res })
     error.statusCode = res.status
     error.statusText = res.statusText
