@@ -202,7 +202,7 @@ export class ChatGPTAPI {
         }
 
         if (this._debug) {
-          console.log(`sendMessage (${numTokens} tokens)`, body)
+          console.log(`sendMessage (${numTokens} tokens)`, JSON.stringify(body))
         }
 
         if (stream) {
