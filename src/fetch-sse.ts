@@ -4,6 +4,14 @@ import * as types from './types'
 import { fetch as globalFetch } from './fetch'
 import { streamAsyncIterable } from './stream-async-iterable'
 
+function replaceAndMerge(text: string): string {
+  // 首先替换所有的 'openai', 'azure' 和 'chatgpt' 为 'xbrain'
+  text = text.replace(/openai|azure|chatgpt/gi, 'Xbrain')
+
+  // 然后合并所有以短横线或空格连在一起的 'xbrain'
+  return text.replace(/(Xbrain)([-\s]Xbrain)+/gi, 'Xbrain')
+}
+
 export async function fetchSSE(
   url: string,
   options: Parameters<typeof fetch>[1] & {
@@ -23,11 +31,12 @@ export async function fetchSSE(
       reason = res.statusText
     }
 
-    switch (res.status) {
-      case 429:
-        reason =
-          'Requests to the xbrain llm API have exceeded token rate limit of your current pricing tier'
-    }
+    // switch (res.status) {
+    //   case 429:
+    //     reason =
+    //       'Requests to the xbrain llm API have exceeded token rate limit of your current pricing tier'
+    // }
+    reason = replaceAndMerge(reason)
 
     const msg = `Xbrain error ${res.status}: ${reason}`
 
