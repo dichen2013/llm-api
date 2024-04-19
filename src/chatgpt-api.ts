@@ -166,10 +166,23 @@ export class ChatGPTAPI {
     }
 
     const latestQuestion = message
+    const tokenMap = {
+      'xbrain-1.1-chat': 15000,
+      '/data/32b': 32000
+    }
+    const { model } = completionParams
+    let maxTk = this._maxModelTokens
+    let maxResponseTk = this._maxResponseTokens
+    if (tokenMap[model]) {
+      maxTk = tokenMap[model]
+      maxResponseTk = 2048
+    }
 
     const { messages, maxTokens, numTokens } = await this._buildMessages(
       text,
-      opts
+      opts,
+      maxTk,
+      maxResponseTk
     )
 
     const result: types.ChatMessage = {
@@ -351,14 +364,19 @@ export class ChatGPTAPI {
     this._apiOrg = apiOrg
   }
 
-  protected async _buildMessages(text: string, opts: types.SendMessageOptions) {
+  protected async _buildMessages(
+    text: string,
+    opts: types.SendMessageOptions,
+    maxTk: number,
+    maxResponseTk: number
+  ) {
     const { systemMessage = this._systemMessage } = opts
     let { parentMessageId } = opts
 
     const userLabel = USER_LABEL_DEFAULT
     const assistantLabel = ASSISTANT_LABEL_DEFAULT
 
-    const maxNumTokens = this._maxModelTokens - this._maxResponseTokens
+    const maxNumTokens = maxTk - maxResponseTk
     let messages: types.openai.ChatCompletionRequestMessage[] = []
 
     if (systemMessage) {
@@ -433,10 +451,7 @@ export class ChatGPTAPI {
 
     // Use up to 4096 tokens (prompt + response), but try to leave 1000 tokens
     // for the response.
-    const maxTokens = Math.max(
-      1,
-      Math.min(this._maxModelTokens - numTokens, this._maxResponseTokens)
-    )
+    const maxTokens = Math.max(1, Math.min(maxTk - numTokens, maxResponseTk))
 
     return { messages, maxTokens, numTokens }
   }

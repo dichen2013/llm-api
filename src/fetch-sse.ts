@@ -31,11 +31,11 @@ export async function fetchSSE(
       reason = res.statusText
     }
 
-    // switch (res.status) {
-    //   case 429:
-    //     reason =
-    //       'Requests to the xbrain llm API have exceeded token rate limit of your current pricing tier'
-    // }
+    switch (res.status) {
+      case 429:
+        reason =
+          'Requests to the xbrain llm API have exceeded token limit of your current pricing tier'
+    }
     reason = replaceAndMerge(reason)
 
     const msg = `Xbrain error ${res.status}: ${reason}`
