@@ -37,8 +37,8 @@ export async function fetchSSE(
           'Requests to the xbrain llm API have exceeded token limit of your current pricing tier'
     }
     reason = replaceAndMerge(reason)
-
-    const msg = `Xbrain error ${res.status}: ${reason}`
+    // const msg = `Xbrain error ${res.status}: ${reason}`
+    const msg = `${reason}`
 
     const error = new types.ChatGPTError(msg, { cause: res })
     error.statusCode = res.status
