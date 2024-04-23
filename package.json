@@ -1,6 +1,6 @@
 {
   "name": "llm-api-client",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "Node.js client for the llm api.",
   "author": "dichen",
   "license": "MIT",

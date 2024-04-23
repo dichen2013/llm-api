@@ -7,6 +7,7 @@ import * as tokenizer from './tokenizer'
 import * as types from './types'
 import { fetch as globalFetch } from './fetch'
 import { fetchSSE } from './fetch-sse'
+import { logWithTime } from './utils'
 
 const CHATGPT_MODEL = 'gpt-3.5-turbo'
 
@@ -215,7 +216,7 @@ export class ChatGPTAPI {
         }
 
         if (this._debug) {
-          console.log(`sendMessage (${numTokens} tokens)`, JSON.stringify(body))
+          logWithTime(`sendMessage (${numTokens} tokens)`, JSON.stringify(body))
         }
 
         if (stream) {
@@ -229,6 +230,7 @@ export class ChatGPTAPI {
               onMessage: (data: string) => {
                 if (data === '[DONE]') {
                   result.text = result.text.trim()
+                  logWithTime(`receiveMessage: `, result.text)
                   return resolve(result)
                 }
 

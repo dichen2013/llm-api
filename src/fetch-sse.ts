@@ -6,7 +6,7 @@ import { streamAsyncIterable } from './stream-async-iterable'
 
 function replaceAndMerge(text: string): string {
   // 首先替换所有的 'openai', 'azure' 和 'chatgpt' 为 'xbrain'
-  text = text.replace(/openai|azure|chatgpt/gi, 'Xbrain')
+  text = text.replace(/openai|azure|chatgpt|microsoft/gi, 'Xbrain')
 
   // 然后合并所有以短横线或空格连在一起的 'xbrain'
   return text.replace(/(Xbrain)([-\s]Xbrain)+/gi, 'Xbrain')

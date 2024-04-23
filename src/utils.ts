@@ -4,3 +4,9 @@ const uuidv4Re =
 export function isValidUUIDv4(str: string): boolean {
   return str && uuidv4Re.test(str)
 }
+
+export function logWithTime(...messages: any): void {
+  const now = new Date()
+  const localTime = now.toLocaleString() // 获取本地时间表示
+  console.info(localTime, '======', ...messages)
+}
