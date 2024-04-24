@@ -64,12 +64,12 @@ export type SendMessageBrowserOptions = {
 }
 
 export interface ChatMessage {
+  totalTextToken: number
   id: string
   text: string
   role: Role
   name?: string
   delta?: string
-  totalToken?: number
   detail?:
     | openai.CreateChatCompletionResponse
     | CreateChatCompletionStreamResponse

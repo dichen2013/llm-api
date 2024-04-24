@@ -192,7 +192,7 @@ export class ChatGPTAPI {
       conversationId,
       parentMessageId: messageId,
       text: '',
-      totalToken: 0
+      totalTextToken: 0
     }
 
     const responseP = new Promise<types.ChatMessage>(
@@ -253,10 +253,11 @@ export class ChatGPTAPI {
                     if (delta.role) {
                       result.role = delta.role
                     }
+                    result.totalTextToken = numTokens
                     if (response.choices[0]?.finish_reason === 'stop') {
                       const resposneTokens =
                         (await this._getTokenCount(result.text)) || 0
-                      result.totalToken = numTokens + resposneTokens
+                      result.totalTextToken = numTokens + resposneTokens
                     }
 
                     result.detail = response
