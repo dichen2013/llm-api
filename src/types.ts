@@ -69,6 +69,7 @@ export interface ChatMessage {
   role: Role
   name?: string
   delta?: string
+  totalToken?: number
   detail?:
     | openai.CreateChatCompletionResponse
     | CreateChatCompletionStreamResponse

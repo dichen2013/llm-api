@@ -191,7 +191,8 @@ export class ChatGPTAPI {
       id: uuidv4(),
       conversationId,
       parentMessageId: messageId,
-      text: ''
+      text: '',
+      totalToken: 0
     }
 
     const responseP = new Promise<types.ChatMessage>(
@@ -227,10 +228,11 @@ export class ChatGPTAPI {
               headers,
               body: JSON.stringify(body),
               signal: abortSignal,
-              onMessage: (data: string) => {
+              onMessage: async (data: string) => {
                 if (data === '[DONE]') {
                   result.text = result.text.trim()
                   logWithTime(`receiveMessage: `, result.text)
+
                   return resolve(result)
                 }
 
@@ -244,11 +246,17 @@ export class ChatGPTAPI {
 
                   if (response.choices?.length) {
                     const delta = response.choices[0].delta
+
                     result.delta = delta.content
                     if (delta?.content) result.text += delta.content
 
                     if (delta.role) {
                       result.role = delta.role
+                    }
+                    if (response.choices[0]?.finish_reason === 'stop') {
+                      const resposneTokens =
+                        (await this._getTokenCount(result.text)) || 0
+                      result.totalToken = numTokens + resposneTokens
                     }
 
                     result.detail = response
